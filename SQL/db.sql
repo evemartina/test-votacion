@@ -62,7 +62,7 @@ INSERT IGNORE INTO `regiones` (`id`, `nombre`)VALUES
 CREATE TABLE IF NOT EXISTS `comunas` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) NOT NULL,
-  `region_id` int(11) DEFAULT NULL,
+  `region_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `region_id` (`region_id`),
   CONSTRAINT `comunas_ibfk_1` FOREIGN KEY (`region_id`) REFERENCES `regiones` (`id`)
