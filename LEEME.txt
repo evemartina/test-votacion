@@ -7,13 +7,20 @@ Pasos para instalar  proyecto PHP  en un servidor:
    - Copia toda la carpeta del proyecto en la ruta `www ó htdocs  ó la que corresponda al servidor de pruebas` de tu servidor web.
    La ruta completa debe ser `www/votacion-test/`.
 
-2. **Acceder al proyecto**:
-   - La URL para iniciar el proyecto será `http://host/votacion-test/`.
-
-3. **Crear la base de datos**:
+2. **Crear la base de datos**:
    - Dentro de la carpeta `sql` , encontrarás el script necesario para la creación de la base de datos en MySQL.
 
-4. **Versiones utilizadas**:
+3.Modificar el archivo de coxion ConexionModel.php ubicado en la carpeta model
+	- modificar las siguiente variables con las correspendiente a su credenciales de base de datos
+		private $host = "localhost";
+		private $username = "root";
+		private $password = "";
+
+4. **Acceder al proyecto**:
+   - La URL para iniciar el proyecto será `http://host/votacion-test/`.
+
+
+**Versiones utilizadas**:
    - **PHP**: Asegúrate de que el servidor web tenga la versión 8.2.0 de PHP utilizada en el desarrollo del proyecto.
    - **MySQL**: Asegúrate de que el servidor de base de datos MySQL tenga la versión 10.4.27-MariaDB  utilizada en el desarrollo.
 
