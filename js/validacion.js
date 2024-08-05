@@ -25,24 +25,23 @@ document.addEventListener('DOMContentLoaded', () => {
 	 *  RUT es válido, y `false` si no es válido.
 	 */
  
-	function validateRut(value) {
-        value = value.replace(/\D/g, '');
-        if (value.length < 8) return false;
-        const body     = value.slice(0, -1);
-        const dv       = value.slice(-1).toUpperCase();
-        let sum        = 0;
-        let multiplier = 2;
+	function validateRut(rut) {
+		const value = rut.replace(/\./g, '');//quitar los punto
+		if (value.length < 8) return false;
+		const rutSplit = value.split('-');//creo un array separando con el - parte 0: cuerpo parte 1 el DV
+		const body = rutSplit[0];
+		const dv = rutSplit[1];
+		let sum = 0;
+		let multiplier = 2;
+		for (let i = body.length-1; i >= 0; i--) {
+			sum += body[i] * multiplier;
+			multiplier = (multiplier === 7) ? 2 : multiplier + 1;
+		}
+		const expectedDv = (11 - (sum % 11)) % 11;
+		const dvMap = { 10: 'K', 11: '0' };
+		return dvMap[expectedDv] === dv || expectedDv === parseInt(dv);
+	}
 
-        for (let i = body.length - 1; i >= 0; i--) {
-            sum += body[i] * multiplier;
-            multiplier = (multiplier === 7) ? 2 : multiplier + 1;
-        }
-
-        const expectedDv = (11 - (sum % 11)) % 11;
-        const dvMap = { 10: 'K', 11: '0' };
-
-        return dvMap[expectedDv] === dv || expectedDv === parseInt(dv);
-    }
 
     function validateRutField() {
         const isValid = validateRut(rut.value);
@@ -124,16 +123,16 @@ document.addEventListener('DOMContentLoaded', () => {
         this.classList.remove('is-invalid');
     });
 
-    rut.addEventListener('input', function () {
-        let rut = this.value.replace(/\D/g, '');
-        rut = rut.replace(/^0+/, '');
+	rut.addEventListener('input', function () {
+		let rut = this.value.toUpperCase().replace(/[^0-9K]/g, ''); // Aceptar solo números y la letra K
+		rut = rut.replace(/^0+/, '');
+		if (rut.length > 1) {
+			rut = rut.slice(0, -1).replace(/\B(?=(\d{3})+(?!\d))/g, '.') + '-' + rut.slice(-1);
+		}
+		this.value = rut;
+	});
 
-        if (rut.length > 1) {
-            rut = rut.slice(0, -1).replace(/\B(?=(\d{3})+(?!\d))/g, '.') + '-' + rut.slice(-1);
-        }
 
-        this.value = rut;
-    });
 
     rut.addEventListener('blur', validateRutField);
     nombre.addEventListener('blur', validateNombre);
